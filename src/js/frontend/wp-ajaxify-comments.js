@@ -676,6 +676,9 @@ WPAC._ReplaceComments = function(
 		oldCommentsContainer = oldCommentsContainer.filter( function() {
 			return jQuery( this ).children().length > 0 && ! jQuery( this ).is( ':header' );
 		} );
+		oldCommentsContainer = oldCommentsContainer.filter( function() {
+			return jQuery( this ).parents().filter( oldCommentsContainer ).length === 0;
+		} );
 	}
 
 	let newCommentsContainer = extractedBody.find( WPAC._Options.selectorCommentsContainer );
@@ -699,12 +702,15 @@ WPAC._ReplaceComments = function(
 		newCommentsContainer = newCommentsContainer.filter( function() {
 			return jQuery( this ).children().length > 0 && ! jQuery( this ).is( ':header' );
 		} );
+		newCommentsContainer = newCommentsContainer.filter( function() {
+			return jQuery( this ).parents().filter( newCommentsContainer ).length === 0;
+		} );
 
 		// Find respond selector and remove.
 		const respondContainer = newCommentsContainer.find(
 			selectorRespondContainer,
 		);
-		if ( respondContainer.length ) {
+		if ( respondContainer.length && newCommentsContainer.length > 1 ) {
 			respondContainer.remove();
 		}
 	}
@@ -1303,7 +1309,8 @@ WPAC.Init = function() {
 		WPAC._Debug( 'info', 'Found jQuery Idle Timer plugin' );
 	}
 
-	WPAC._Options.hasMultipleCommentContainers = jQuery( WPAC._Options.selectorCommentsContainer ).length > 1;
+	WPAC._Options.hasMultipleCommentContainers =
+		WPAC._CollectPostIds( jQuery( document ) ).length > 1;
 	if ( WPAC._Options.selectorPostContainer && WPAC._Options.hasMultipleCommentContainers ) {
 		WPAC._Debug(
 			'info',
