@@ -10,7 +10,8 @@ module.exports = function( grunt ) {
 					{ src: [ 'functions.php' ], dest: '/', filter: 'isFile' },
 					{ src: [ 'wpml-config.xml' ], dest: '/', filter: 'isFile' },
 					{ src: [ 'readme.txt' ], dest: '/', filter: 'isFile' },
-					{ src: [ 'assets/**' ], dest: '/' },
+					// Keep editable asset sources in source control without shipping them.
+					{ src: [ 'assets/**', '!assets/source/**' ], dest: '/' },
 					{ src: [ 'dist/**' ], dest: '/' },
 					{ src: [ 'js/**' ], dest: '/' },
 					{ src: [ 'languages/**' ], dest: '/' },
