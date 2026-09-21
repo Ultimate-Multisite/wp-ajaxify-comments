@@ -132,7 +132,7 @@ const ColorPickerControl = ( props ) => {
 									value ? '' : 'components-color-palette__custom-color'
 								) }
 							>
-								<Tooltip text={ __( 'Choose Color', 'ajaxify-block' ) }>
+								<Tooltip text={ __( 'Choose Color', 'wp-ajaxify-comments' ) }>
 									<button
 										type="button"
 										aria-expanded={ isVisible }
@@ -140,7 +140,7 @@ const ColorPickerControl = ( props ) => {
 										onClick={ toggleVisible }
 										aria-label={ __(
 											'Custom color picker',
-											'ajaxify-block'
+											'wp-ajaxify-comments'
 										) }
 										style={ {
 											background: getColor( color, opacity ),
@@ -161,7 +161,7 @@ const ColorPickerControl = ( props ) => {
 								value ? '' : 'components-color-palette__custom-color'
 							) }
 						>
-							<Tooltip text={ __( 'Choose Color', 'ajaxify-block' ) }>
+							<Tooltip text={ __( 'Choose Color', 'wp-ajaxify-comments' ) }>
 								<button
 									type="button"
 									aria-expanded={ isVisible }
@@ -169,7 +169,7 @@ const ColorPickerControl = ( props ) => {
 									onClick={ toggleClose }
 									aria-label={ __(
 										'Custom color picker',
-										'ajaxify-block'
+										'wp-ajaxify-comments'
 									) }
 									style={ {
 										background: getColor( color, opacity ),
@@ -205,7 +205,7 @@ const ColorPickerControl = ( props ) => {
 
 							{ alpha && (
 								<div className="ajaxify-block-component-color-opacity">
-									<Tooltip text={ __( 'Opacity', 'ajaxify-block' ) }>
+									<Tooltip text={ __( 'Opacity', 'wp-ajaxify-comments' ) }>
 										{ opacityIcon }
 									</Tooltip>
 
@@ -245,7 +245,7 @@ const ColorPickerControl = ( props ) => {
 										setColor( defaultColor );
 									} }
 								>
-									{ __( 'Clear Color', 'ajaxify-block' ) }
+									{ __( 'Clear Color', 'wp-ajaxify-comments' ) }
 								</Button>
 							</div>
 						</Popover>
@@ -268,7 +268,7 @@ ColorPickerControl.propTypes = {
 };
 
 ColorPickerControl.defaultProps = {
-	label: __( 'Color', 'ajaxify-block' ),
+	label: __( 'Color', 'wp-ajaxify-comments' ),
 	value: '',
 	defaultColor: 'transparent',
 	alpha: false,

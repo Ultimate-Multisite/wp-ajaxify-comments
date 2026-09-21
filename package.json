@@ -6,7 +6,8 @@
 	"scripts": {
 		"start": "webpack --watch --env mode=development",
 		"dev": "webpack --mode development --env mode=development",
-		"build": "webpack --mode production --env mode=production"
+		"build": "webpack --mode production --env mode=production",
+		"i18n:pot": "wp i18n make-pot . languages/wp-ajaxify-comments.pot --slug=wp-ajaxify-comments --domain=wp-ajaxify-comments --headers='{\"Report-Msgid-Bugs-To\":\"https://github.com/Ultimate-Multisite/wp-ajaxify-comments/issues\"}'"
 	},
 	"repository": {
 		"type": "git",
