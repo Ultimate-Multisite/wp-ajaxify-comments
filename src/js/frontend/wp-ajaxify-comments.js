@@ -240,7 +240,7 @@ WPAC._UpdateUrl = function( url ) {
 };
 
 /**
- * Parse a scoped comments selector of the form #comments-{postId}.
+ * Parse a scoped comments selector containing a post ID.
  *
  * @param {string} selector Selector that may contain a client-generated post ID.
  * @return {number} Post ID, or 0 if the selector is not scoped.
@@ -250,7 +250,7 @@ WPAC._GetScopedPostId = function( selector ) {
 		return 0;
 	}
 
-	const match = selector.match( /^#comments-(\d+)$/ );
+	const match = selector.match( /^\[data-wpac-post-id=["']?(\d+)["']?\]$/ );
 	return match ? parseInt( match[ 1 ], 10 ) : 0;
 };
 
@@ -460,7 +460,8 @@ WPAC._ReplaceMultipleComments = function(
 	} );
 	document.dispatchEvent( beforeCommentsEvent );
 
-	const replacedPostIds = [];
+	const mappedContainers = [];
+	let mappingFailed = false;
 	jQuery.each( postIds, function( i, postId ) {
 		const $old = WPAC._FindCommentsContainerByPostId( liveRoot, postId );
 		const $new = WPAC._FindCommentsContainerByPostId( extractedBody, postId );
@@ -473,24 +474,29 @@ WPAC._ReplaceMultipleComments = function(
 				$old.length,
 				$new.length,
 			);
+			mappingFailed = true;
 			return;
 		}
 
-		$old.empty();
-		$old.append( $new.children() );
-		replacedPostIds.push( postId );
-		WPAC._Debug( 'info', 'Replaced comments container for post ID %s', postId );
+		mappedContainers.push( { postId, $old, $new } );
 	} );
 
-	if ( scopedPostId && replacedPostIds.length !== 1 ) {
+	if ( mappingFailed || mappedContainers.length !== postIds.length ) {
 		WPAC._LoadFallbackUrl( fallbackUrl );
 		return false;
 	}
 
-	if ( ! scopedPostId && ! replacedPostIds.length ) {
-		WPAC._LoadFallbackUrl( fallbackUrl );
-		return false;
-	}
+	const replacedPostIds = [];
+	jQuery.each( mappedContainers, function( i, mapping ) {
+		mapping.$old.empty();
+		mapping.$old.append( mapping.$new.children() );
+		replacedPostIds.push( mapping.postId );
+		WPAC._Debug(
+			'info',
+			'Replaced comments container for post ID %s',
+			mapping.postId,
+		);
+	} );
 
 	if ( WPAC._Options.commentsEnabled ) {
 		let formReplaceFailed = false;
@@ -956,7 +962,7 @@ WPAC.AttachForm = function( options ) {
 				paginationTargetSelector = paginationTargetContainer.querySelector( 'input[name="comment_post_ID"]' );
 				if ( paginationTargetSelector ) {
 					pageId = paginationTargetSelector.value;
-					paginationTargetSelector = '#comments-' + pageId;
+					paginationTargetSelector = `[data-wpac-post-id="${ pageId }"]`;
 				}
 			}
 			if ( ! WPAC._Options.hasMultipleCommentContainers ) {
@@ -1319,21 +1325,24 @@ WPAC.Init = function() {
 		);
 		jQuery( WPAC._Options.selectorPostContainer ).each( function( i, e ) {
 			const maybePageId = jQuery( e ).find( 'input[name="comment_post_ID"]' ).val();
-			const pageSelector = maybePageId ? `comments-${ parseInt( maybePageId ) }` : null;
+			const pageSelector = maybePageId
+				? `[data-wpac-post-id="${ parseInt( maybePageId, 10 ) }"]`
+				: null;
 			if ( pageSelector ) {
-				jQuery( e ).attr( 'id', pageSelector );
+				jQuery( e ).attr( 'data-wpac-post-id', parseInt( maybePageId, 10 ) );
 			}
 
-			const id = pageSelector || jQuery( e ).attr( 'id' );
-			if ( ! id ) {
+			const containerSelector = pageSelector || ( jQuery( e ).attr( 'id' )
+				? `#${ jQuery( e ).attr( 'id' ) }`
+				: null );
+			if ( ! containerSelector ) {
 				WPAC._Debug(
 					'info',
-					'Skip post container element %o (ID not defined)',
+					'Skip post container element %o (post ID not defined)',
 					e,
 				);
 				return;
 			}
-			const containerSelector = `#${ id }`;
 			WPAC.AttachForm( {
 				selectorCommentForm: WPAC._ScopeSelector(
 					containerSelector,
