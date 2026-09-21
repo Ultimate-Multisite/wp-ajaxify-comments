@@ -1,2 +1,5 @@
 src/js/frontend/wp-ajaxify-comments.js whitespace=cr-at-eol
 *.php text eol=lf
+
+# Opt out of AI model training
+* ai-training=false

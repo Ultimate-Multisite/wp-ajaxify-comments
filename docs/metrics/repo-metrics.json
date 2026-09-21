@@ -1,0 +1,179 @@
+{
+  "schema": "aidevops.repo-metrics.v1",
+  "schema_version": 1,
+  "generated_at": "2026-09-21T23:12:27Z",
+  "tool": {
+    "name": "aidevops repo-metrics",
+    "version": "1.0.0"
+  },
+  "repo": {
+    "name": "wp-ajaxify-comments",
+    "slug": "Ultimate-Multisite/wp-ajaxify-comments"
+  },
+  "summary": {
+    "source_files": 176,
+    "code": 43874,
+    "comments": 2347,
+    "blanks": 2129,
+    "languages": 8,
+    "dependencies": 1039
+  },
+  "languages": [
+    {
+      "name": "JSON",
+      "files": 24,
+      "code": 23271,
+      "comments": 0,
+      "blanks": 3,
+      "percentage": 53.04,
+      "color": "#292929"
+    },
+    {
+      "name": "JavaScript",
+      "files": 68,
+      "code": 11879,
+      "comments": 656,
+      "blanks": 692,
+      "percentage": 27.08,
+      "color": "#f1e05a"
+    },
+    {
+      "name": "PHP",
+      "files": 27,
+      "code": 4013,
+      "comments": 1598,
+      "blanks": 632,
+      "percentage": 9.15,
+      "color": "#4F5D95"
+    },
+    {
+      "name": "SCSS",
+      "files": 9,
+      "code": 2806,
+      "comments": 41,
+      "blanks": 251,
+      "percentage": 6.4,
+      "color": "#c6538c"
+    },
+    {
+      "name": "Markdown",
+      "files": 16,
+      "code": 1696,
+      "comments": 0,
+      "blanks": 532,
+      "percentage": 3.87,
+      "color": "#083fa1"
+    },
+    {
+      "name": "XML",
+      "files": 1,
+      "code": 115,
+      "comments": 28,
+      "blanks": 12,
+      "percentage": 0.26,
+      "color": "#0060ac"
+    },
+    {
+      "name": "SVG",
+      "files": 27,
+      "code": 58,
+      "comments": 0,
+      "blanks": 0,
+      "percentage": 0.13,
+      "color": "#6e7781"
+    },
+    {
+      "name": "YAML",
+      "files": 4,
+      "code": 36,
+      "comments": 24,
+      "blanks": 7,
+      "percentage": 0.08,
+      "color": "#cb171e"
+    }
+  ],
+  "dependencies": {
+    "direct": 53,
+    "locked": 1039,
+    "total": 1039,
+    "ecosystems": [
+      "composer",
+      "npm"
+    ],
+    "manifests": [
+      {
+        "path": "composer.json",
+        "ecosystem": "composer",
+        "direct": 0,
+        "locked": 0,
+        "dependencies": []
+      },
+      {
+        "path": "package.json",
+        "ecosystem": "npm",
+        "direct": 53,
+        "locked": 1039,
+        "dependencies": [
+          "@babel/eslint-parser",
+          "@babel/plugin-proposal-class-properties",
+          "@babel/plugin-transform-arrow-functions",
+          "@babel/preset-env",
+          "@babel/preset-react",
+          "@fancyapps/ui",
+          "@sweetalert2/themes",
+          "@typescript-eslint/eslint-plugin",
+          "@wordpress/components",
+          "@wordpress/dependency-extraction-webpack-plugin",
+          "@wordpress/eslint-plugin",
+          "@wordpress/hooks",
+          "@wordpress/icons",
+          "axios",
+          "babel-loader",
+          "babel-plugin-lodash",
+          "babel-plugin-macros",
+          "classnames",
+          "css-loader",
+          "eslint",
+          "eslint-config-prettier",
+          "eslint-config-standard",
+          "eslint-plugin-import",
+          "eslint-plugin-n",
+          "eslint-plugin-prettier",
+          "eslint-plugin-promise",
+          "eslint-plugin-react",
+          "grunt",
+          "grunt-contrib-compress",
+          "hex-to-rgba",
+          "jquery",
+          "lucide-react",
+          "mini-css-extract-plugin",
+          "prettier",
+          "prettier-eslint",
+          "process",
+          "prop-types",
+          "qs",
+          "react",
+          "react-dom",
+          "react-hook-form",
+          "react-spinners",
+          "resolve-url-loader",
+          "rgb2hex",
+          "sass",
+          "sass-loader",
+          "sweetalert2",
+          "url-loader",
+          "use-async-resource",
+          "util",
+          "webpack",
+          "webpack-cli",
+          "webpack-remove-empty-scripts"
+        ]
+      }
+    ]
+  },
+  "refresh": {
+    "default_policy": "weekly scheduled refresh plus manual runs; skip generated outputs younger than 24h in managed workflows",
+    "cost_profile": "fast local git/unignored-file scan; no network by default",
+    "top_languages": 6
+  }
+}
