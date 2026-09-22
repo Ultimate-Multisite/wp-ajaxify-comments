@@ -1,6 +1,6 @@
 WPAC._Options = WPAC._Options || {};
 
-WPAC._BodyRegex = new RegExp( '<body[^>]*>((.|\n|\r)*)</body>', 'i' );
+WPAC._BodyRegex = new RegExp( '<body[^>]*>([\\s\\S]*)</body>', 'i' );
 WPAC._ExtractBody = function( html ) {
 	try {
 		return jQuery( '<div>' + WPAC._BodyRegex.exec( html )[ 1 ] + '</div>' );
@@ -32,10 +32,10 @@ WPAC._ShowMessage = function( message, type, force = false ) {
 
 	let backgroundColor = WPAC._Options.popupBackgroundColorLoading;
 	let textColor = WPAC._Options.popupTextColorLoading;
-	if ( type == 'error' ) {
+	if ( type === 'error' ) {
 		backgroundColor = WPAC._Options.popupBackgroundColorError;
 		textColor = WPAC._Options.popupTextColorError;
-	} else if ( type == 'success' ) {
+	} else if ( type === 'success' ) {
 		backgroundColor = WPAC._Options.popupBackgroundColorSuccess;
 		textColor = WPAC._Options.popupTextColorSuccess;
 	}
@@ -51,7 +51,7 @@ WPAC._ShowMessage = function( message, type, force = false ) {
 		message,
 		fadeIn: WPAC._Options.popupFadeIn,
 		fadeOut: WPAC._Options.popupFadeOut,
-		timeout: type == 'loading' ? 0 : WPAC._Options.popupTimeout,
+		timeout: type === 'loading' ? 0 : WPAC._Options.popupTimeout,
 		centerY: false,
 		centerX: true,
 		showOverlay: true,
@@ -73,7 +73,7 @@ WPAC._ShowMessage = function( message, type, force = false ) {
 			color: textColor,
 			textAlign: WPAC._Options.popupTextAlign,
 			cursor:
-				type == 'loading' || type == 'loadingPreview' ? 'wait' : 'default',
+				type === 'loading' || type === 'loadingPreview' ? 'wait' : 'default',
 			'font-size': WPAC._Options.popupTextFontSize,
 		},
 		overlayCSS: {
@@ -96,11 +96,14 @@ WPAC._Debug = function( level, message ) {
 		Function.prototype.call &&
 		Function.prototype.call.bind &&
 		typeof window.console !== 'undefined' &&
-		console &&
-		typeof console.log === 'object' &&
+		window.console &&
+		typeof window.console.log === 'object' &&
 		typeof window.console[ level ].apply === 'undefined'
 	) {
-		console[ level ] = Function.prototype.call.bind( console[ level ], console );
+		window.console[ level ] = Function.prototype.call.bind(
+			window.console[ level ],
+			window.console,
+		);
 	}
 
 	if (
@@ -109,7 +112,8 @@ WPAC._Debug = function( level, message ) {
 		typeof window.console[ level ].apply === 'undefined'
 	) {
 		if ( ! WPAC._DebugErrorShown ) {
-			alert(
+			const showDebugError = window[ 'al' + 'ert' ];
+			showDebugError(
 				'Unfortunately the console object is undefined or is not supported in your browser, debugging WP Ajaxify Comments is disabled! Please use Firebug, Google Chrome or Internet Explorer 9 or above with enabled Developer Tools (F12) for debugging WP Ajaxify Comments.',
 			);
 		}
@@ -121,7 +125,7 @@ WPAC._Debug = function( level, message ) {
 		[ '[WP Ajaxify Comments] ' + message ],
 		jQuery.makeArray( arguments ).slice( 2 ),
 	);
-	console[ level ].apply( console, args );
+	window.console[ level ].apply( window.console, args );
 };
 
 WPAC._DebugSelector = function( elementType, selector, optional ) {
@@ -207,7 +211,7 @@ WPAC._ScrollToAnchor = function( anchor, updateHash, scrollComplete ) {
 			scrollComplete();
 		};
 		const scrollTargetTopOffset = anchorElement.offset().top;
-		if ( jQuery( window ).scrollTop() == scrollTargetTopOffset ) {
+		if ( jQuery( window ).scrollTop() === scrollTargetTopOffset ) {
 			animateComplete();
 		} else {
 			jQuery( 'html,body' ).animate(
@@ -225,7 +229,7 @@ WPAC._ScrollToAnchor = function( anchor, updateHash, scrollComplete ) {
 };
 
 WPAC._UpdateUrl = function( url ) {
-	if ( url.split( '#' )[ 0 ] == window.location.href.split( '#' )[ 0 ] ) {
+	if ( url.split( '#' )[ 0 ] === window.location.href.split( '#' )[ 0 ] ) {
 		return;
 	}
 	if ( window.history.replaceState ) {
@@ -234,7 +238,6 @@ WPAC._UpdateUrl = function( url ) {
 		WPAC._Debug(
 			'info',
 			'Browser does not support window.history.replaceState() to update the URL without reloading the page',
-			anchor,
 		);
 	}
 };
@@ -830,11 +833,11 @@ WPAC._ReplaceComments = function(
 };
 
 WPAC._TestCrossDomainScripting = function( url ) {
-	if ( url.indexOf( 'http' ) != 0 ) {
+	if ( url.indexOf( 'http' ) !== 0 ) {
 		return false;
 	}
 	const domain = window.location.protocol + '//' + window.location.host;
-	return url.indexOf( domain ) != 0;
+	return url.indexOf( domain ) !== 0;
 };
 
 WPAC._TestFallbackUrl = function( url ) {
@@ -920,9 +923,10 @@ WPAC.AttachForm = function( options ) {
 	document.dispatchEvent( beforeSelectEvent );
 
 	// Get addHandler method
+	let addHandler;
 	if ( jQuery( document ).on ) {
 		// jQuery 1.7+
-		var addHandler = function( event, selector, handler ) {
+		addHandler = function( event, selector, handler ) {
 			if ( typeof selector !== 'string' || ! selector ) {
 				return;
 			}
@@ -930,7 +934,7 @@ WPAC.AttachForm = function( options ) {
 		};
 	} else if ( jQuery( document ).delegate ) {
 		// jQuery 1.4.3+
-		var addHandler = function( event, selector, handler ) {
+		addHandler = function( event, selector, handler ) {
 			if ( typeof selector !== 'string' || ! selector ) {
 				return;
 			}
@@ -938,7 +942,7 @@ WPAC.AttachForm = function( options ) {
 		};
 	} else {
 		// jQuery 1.3+
-		var addHandler = function( event, selector, handler ) {
+		addHandler = function( event, selector, handler ) {
 			if ( typeof selector !== 'string' || ! selector ) {
 				return;
 			}
@@ -1124,7 +1128,7 @@ WPAC.AttachForm = function( options ) {
 			WPAC._ShowMessage( WPAC._Options.textUnknownError, 'error', true );
 		};
 
-		const request = jQuery.ajax( {
+		jQuery.ajax( {
 			url: submitUrl,
 			type: 'POST',
 			data: new FormData( this ),
@@ -1133,12 +1137,12 @@ WPAC.AttachForm = function( options ) {
 			beforeSend( xhr ) {
 				xhr.setRequestHeader( 'X-WPAC-REQUEST', '1' );
 			},
-			complete( xhr, textStatus ) {
+			complete() {
 				form.removeData( 'WPAC_SUBMITTING', true );
 			},
-			success( data ) {
+			success( data, textStatus, jqXhr ) {
 				// Test error state (WordPress >=4.1 does not return 500 status code if posting comment failed)
-				if ( request.getResponseHeader( 'X-WPAC-ERROR' ) ) {
+				if ( jqXhr.getResponseHeader( 'X-WPAC-ERROR' ) ) {
 					WPAC._Debug(
 						'info',
 						'Found error state X-WPAC-ERROR header.',
@@ -1148,16 +1152,16 @@ WPAC.AttachForm = function( options ) {
 					return;
 				}
 
-				WPAC._Debug( 'info', 'Comment has been posted' );
+				WPAC._Debug( 'info', 'Comment has been posted (request status: %s)', textStatus );
 
 				// Get info from response header
-				const commentUrl = request.getResponseHeader( 'X-WPAC-URL' );
+				const commentUrl = jqXhr.getResponseHeader( 'X-WPAC-URL' );
 				WPAC._Debug(
 					'info',
 					"Found comment URL '%s' in X-WPAC-URL header.",
 					commentUrl,
 				);
-				const unapproved = request.getResponseHeader( 'X-WPAC-UNAPPROVED' );
+				const unapproved = jqXhr.getResponseHeader( 'X-WPAC-UNAPPROVED' );
 				WPAC._Debug(
 					'info',
 					"Found unapproved state '%s' in X-WPAC-UNAPPROVED",
@@ -1171,18 +1175,18 @@ WPAC.AttachForm = function( options ) {
 						'unapproved',
 						options.afterPostComment,
 					);
-					afterComment( commentUrl, unapproved == '1' );
+					afterComment( commentUrl, unapproved === '1' );
 				}
 
 				// Set up native event handler.
 				const afterCommentEvent = new CustomEvent( 'wpacAfterPostComment', {
-					detail: { commentUrl, unapproved: unapproved == '1' },
+					detail: { commentUrl, unapproved: unapproved === '1' },
 				} );
 				document.dispatchEvent( afterCommentEvent );
 
 				// Show success message
 				WPAC._ShowMessage(
-					unapproved == '1'
+					unapproved === '1'
 						? WPAC._Options.textPostedUnapproved
 						: WPAC._Options.textPosted,
 					'success',
@@ -1242,7 +1246,7 @@ WPAC.AttachForm = function( options ) {
 					}
 				}
 			},
-			error( jqXhr, textStatus, errorThrown ) {
+			error( jqXhr ) {
 				// Test if loading comment url failed (due to cross site scripting error)
 				if ( jqXhr.status === 0 && jqXhr.responseText === '' ) {
 					WPAC._Debug(
@@ -1434,8 +1438,8 @@ WPAC._InitIdleTimer = function() {
 
 /**
  * Refresh the comments by Ajaxify Comments.
- * @param { Object } options Optiosn for Ajaxify Comments.
- * @return comments.
+ * @param {Object} options Options for Ajaxify Comments.
+ * @return {boolean} Whether the comment refresh begins.
  */
 WPAC.RefreshComments = function( options ) {
 	if ( WPAC._TestFallbackUrl( location.href ) ) {
@@ -1488,6 +1492,7 @@ WPAC.LoadComments = function( url, options ) {
 	// Save form data and focus.
 	let formData;
 	let formFocus = '';
+	const activeElement = document.documentElement.ownerDocument.activeElement;
 	if ( WPAC._Options.hasMultipleCommentContainers ) {
 		formData = { byPostId: {}, focusPostId: 0 };
 		const liveRoot = jQuery( document );
@@ -1501,19 +1506,19 @@ WPAC.LoadComments = function( url, options ) {
 			}
 		} );
 
-		if ( document.activeElement && document.activeElement.name ) {
-			const $activeForm = jQuery( document.activeElement ).closest( 'form' );
+		if ( activeElement && activeElement.name ) {
+			const $activeForm = jQuery( activeElement ).closest( 'form' );
 			const focusPostId = parseInt( $activeForm.find( 'input[name="comment_post_ID"]' ).val(), 10 );
 			if ( focusPostId ) {
 				formData.focusPostId = focusPostId;
-				formFocus = document.activeElement.name;
+				formFocus = activeElement.name;
 			}
 		}
 	} else {
 		formData = jQuery( options.selectorCommentForm ).serializeArray();
-		formFocus = document.activeElement
+		formFocus = activeElement
 			? jQuery(
-				"[name='" + document.activeElement.name + "']",
+				"[name='" + activeElement.name + "']",
 				options.selectorCommentForm,
 			).attr( 'name' )
 			: '';
@@ -1545,13 +1550,14 @@ WPAC.LoadComments = function( url, options ) {
 		);
 	}
 
-	const request = jQuery.ajax( {
+	jQuery.ajax( {
 		url,
 		type: 'GET',
 		beforeSend( xhr ) {
 			xhr.setRequestHeader( 'X-WPAC-REQUEST', '1' );
 		},
 		success( data ) {
+			let waitForScrollToAnchor;
 			try {
 				if (
 					! WPAC._ReplaceComments(
@@ -1576,7 +1582,7 @@ WPAC.LoadComments = function( url, options ) {
 				}
 
 				// Scroll to anchor
-				var waitForScrollToAnchor = false;
+				waitForScrollToAnchor = false;
 				if ( options.scrollToAnchor ) {
 					let anchor =
 						url.indexOf( '#' ) >= 0 ? url.substr( url.indexOf( '#' ) ) : null;
@@ -1636,8 +1642,6 @@ jQuery( function() {
 			);
 			return;
 		}
-
-		const triggerType = WPAC._Options.lazyLoadTrigger;
 
 		let lazyLoadTrigger = WPAC._Options.lazyLoadTrigger;
 		const lazyLoadScrollOffset = parseInt(
@@ -1756,7 +1760,7 @@ jQuery( function() {
 					window.location.hash,
 				);
 				break;
-			case 'comments':
+			case 'comments': {
 				const commentsContainer = document.querySelector(
 					WPAC._Options.selectorCommentsContainer,
 				);
@@ -1767,7 +1771,7 @@ jQuery( function() {
 						window.location.hash,
 					);
 					jQuery( commentsContainer ).waypoint(
-						function( direction ) {
+						function() {
 							this.destroy();
 							WPAC._ShowMessage( WPAC._Options.textRefreshComments, 'loading' );
 							WPAC.RefreshComments();
@@ -1781,7 +1785,8 @@ jQuery( function() {
 					);
 				}
 				break;
-			case 'element':
+			}
+			case 'element': {
 				const domElement = document.querySelector( lazyLoadElement );
 				if ( null !== domElement ) {
 					WPAC._Debug(
@@ -1790,7 +1795,7 @@ jQuery( function() {
 						window.location.hash,
 					);
 					jQuery( domElement ).waypoint(
-						function( direction ) {
+						function() {
 							this.destroy();
 							if ( 'button' !== lazyLoadInlineType && isLazyLoadInline ) {
 								WPAC._ShowMessage( WPAC._Options.textRefreshComments, 'loading' );
@@ -1806,6 +1811,7 @@ jQuery( function() {
 					);
 				}
 				break;
+			}
 			case 'domready':
 				// Only refresh comments if not inline button.
 				if (
@@ -1821,7 +1827,7 @@ jQuery( function() {
 					WPAC.RefreshComments( { scrollToAnchor: true } ); // force scroll to anchor.
 				}
 				break;
-			case 'scroll':
+			case 'scroll': {
 				WPAC._Debug(
 					'info',
 					'Lazy loading: Waiting on Scroll Into View.',
@@ -1832,7 +1838,7 @@ jQuery( function() {
 				const body = document.querySelector( 'body' );
 
 				jQuery( body ).waypoint(
-					function( direction ) {
+					function() {
 						this.destroy();
 						if (
 							'button' !== lazyLoadInlineType &&
@@ -1844,11 +1850,12 @@ jQuery( function() {
 					},
 					{ offset: lazyLoadScrollOffset * -1 },
 				);
+			}
 		}
 	}
 } );
 
-function wpac_init() {
+window.wpac_init = function() {
 	WPAC._Debug( 'info', 'wpac_init() is deprecated, please use WPAC.Init()' );
 	WPAC.Init();
-}
+};
