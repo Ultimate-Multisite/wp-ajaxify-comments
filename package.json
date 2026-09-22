@@ -64,7 +64,7 @@
 		"rgb2hex": "^0.2.5",
 		"sass": "^1.66.1",
 		"sass-loader": "^13.3.2",
-		"sweetalert2": "^11.6.13",
+		"sweetalert2": "^11.26.25",
 		"url-loader": "^4.1.1",
 		"use-async-resource": "^2.2.2",
 		"util": "^0.12.4",
