@@ -1,0 +1,373 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Constant AUTH_KEY not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: functions.php
+
+		-
+			message: '#^Constant AUTH_SALT not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: functions.php
+
+		-
+			message: '#^Constant LOGGED_IN_KEY not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: functions.php
+
+		-
+			message: '#^Constant LOGGED_IN_SALT not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: functions.php
+
+		-
+			message: '#^Constant NONCE_KEY not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: functions.php
+
+		-
+			message: '#^Constant NONCE_SALT not found\.$#'
+			identifier: constant.notFound
+			count: 2
+			path: functions.php
+
+		-
+			message: '#^Constant SECURE_AUTH_SALT not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: functions.php
+
+		-
+			message: '#^Negated boolean expression is always true\.$#'
+			identifier: booleanNot.alwaysTrue
+			count: 1
+			path: functions.php
+
+		-
+			message: '#^One or more @param tags has an invalid name or invalid syntax\.$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: functions.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(bool Whether to force scripts on all pages\.\)\: Unexpected token "Whether", expected variable at offset 63 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: functions.php
+
+		-
+			message: '#^Parameter \#1 \$text of function esc_html expects string, float given\.$#'
+			identifier: argument.type
+			count: 3
+			path: functions.php
+
+		-
+			message: '#^Parameter \#2 \$fallback_url of function wp_validate_redirect expects string, false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: functions.php
+
+		-
+			message: '#^Parameter \#4 \$ver of function wp_enqueue_script expects bool\|string\|null, float given\.$#'
+			identifier: argument.type
+			count: 5
+			path: functions.php
+
+		-
+			message: '#^Parameter \#4 \$ver of function wp_enqueue_style expects bool\|string\|null, float given\.$#'
+			identifier: argument.type
+			count: 2
+			path: functions.php
+
+		-
+			message: '#^Action callback returns array but should not return anything\.$#'
+			identifier: return.void
+			count: 1
+			path: php/Admin/Init.php
+
+		-
+			message: '#^Cannot access property \$download_link on array\|object\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: php/Admin/Init.php
+
+		-
+			message: '#^Cannot access property \$name on array\|object\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: php/Admin/Init.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: php/Admin/Init.php
+
+		-
+			message: '#^Parameter \#4 \$ver of function wp_enqueue_style expects bool\|string\|null, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: php/Admin/Init.php
+
+		-
+			message: '#^Static property DLXPlugins\\WPAC\\Admin\\Init\:\:\$slug is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: php/Admin/Init.php
+
+		-
+			message: '#^Static property DLXPlugins\\WPAC\\Admin\\Init\:\:\$url is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: php/Admin/Init.php
+
+		-
+			message: '#^Expected 0 @param tags, found 1\.$#'
+			identifier: paramTag.count
+			count: 1
+			path: php/Admin/Settings.php
+
+		-
+			message: '#^Expected 2 @param tags, found 3\.$#'
+			identifier: paramTag.count
+			count: 1
+			path: php/Admin/Settings.php
+
+		-
+			message: '#^One or more @param tags has an invalid name or invalid syntax\.$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: php/Admin/Settings.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(array Associative array of tabs\.\)\: Unexpected token "Associative", expected variable at offset 157 on line 8$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: php/Admin/Settings.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(string Sub Tab\)\: Unexpected token "Sub", expected variable at offset 228 on line 10$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: php/Admin/Settings.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(string Tab\)\: Unexpected token "Tab", expected variable at offset 204 on line 9$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: php/Admin/Settings.php
+
+		-
+			message: '#^Property WP_Screen\:\:\$base \(string\) in isset\(\) is not nullable\.$#'
+			identifier: isset.property
+			count: 1
+			path: php/Admin/Settings.php
+
+		-
+			message: '#^Variable \$sub_tab_html_array in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: php/Admin/Settings.php
+
+		-
+			message: '#^Variable \$sub_tabs in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: php/Admin/Settings.php
+
+		-
+			message: '#^Variable \$tabs in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: php/Admin/Settings.php
+
+		-
+			message: '#^Callback expects 1\-2 parameters, \$accepted_args is set to 3\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Advanced.php
+
+		-
+			message: '#^Callback expects 1\-2 parameters, \$accepted_args is set to 3\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Appearance.php
+
+		-
+			message: '#^Function remove_filter invoked with 4 parameters, 2\-3 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Appearance.php
+
+		-
+			message: '#^Parameter \#4 \$ver of function wp_enqueue_script expects bool\|string\|null, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: php/Admin/Tabs/Appearance.php
+
+		-
+			message: '#^Callback expects 1\-2 parameters, \$accepted_args is set to 3\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Callbacks.php
+
+		-
+			message: '#^Callback expects 1\-2 parameters, \$accepted_args is set to 3\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Integrations.php
+
+		-
+			message: '#^Callback expects 1\-2 parameters, \$accepted_args is set to 3\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Labels.php
+
+		-
+			message: '#^Callback expects 1\-2 parameters, \$accepted_args is set to 3\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Lazy_Load.php
+
+		-
+			message: '#^Function remove_filter invoked with 4 parameters, 2\-3 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Lazy_Load.php
+
+		-
+			message: '#^Parameter \#4 \$ver of function wp_enqueue_style expects bool\|string\|null, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: php/Admin/Tabs/Lazy_Load.php
+
+		-
+			message: '#^Callback expects 1\-2 parameters, \$accepted_args is set to 3\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Main.php
+
+		-
+			message: '#^Callback expects 1\-2 parameters, \$accepted_args is set to 3\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Pagination.php
+
+		-
+			message: '#^Function remove_filter invoked with 4 parameters, 2\-3 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Pagination.php
+
+		-
+			message: '#^Parameter \#4 \$ver of function wp_enqueue_script expects bool\|string\|null, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: php/Admin/Tabs/Pagination.php
+
+		-
+			message: '#^Callback expects 1\-2 parameters, \$accepted_args is set to 3\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Selectors.php
+
+		-
+			message: '#^Callback expects 1\-2 parameters, \$accepted_args is set to 3\.$#'
+			identifier: arguments.count
+			count: 1
+			path: php/Admin/Tabs/Support.php
+
+		-
+			message: '#^Method DLXPlugins\\WPAC\\Functions\:\:get_plugin_version\(\) should return float but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: php/Functions.php
+
+		-
+			message: '#^Method DLXPlugins\\WPAC\\Functions\:\:is_multisite\(\) should return true but returns false\.$#'
+			identifier: return.type
+			count: 2
+			path: php/Functions.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$type$#'
+			identifier: parameter.notFound
+			count: 2
+			path: php/Functions.php
+
+		-
+			message: '#^Call to method add_group\(\) on an unknown class DLXPlugins\\WPAC\\WP_Admin_Bar\.$#'
+			identifier: class.notFound
+			count: 1
+			path: php/Menu_Helper.php
+
+		-
+			message: '#^Call to method add_menu\(\) on an unknown class DLXPlugins\\WPAC\\WP_Admin_Bar\.$#'
+			identifier: class.notFound
+			count: 1
+			path: php/Menu_Helper.php
+
+		-
+			message: '#^Call to method add_node\(\) on an unknown class DLXPlugins\\WPAC\\WP_Admin_Bar\.$#'
+			identifier: class.notFound
+			count: 16
+			path: php/Menu_Helper.php
+
+		-
+			message: '#^Parameter \#1 \$postarr of function wp_update_post expects array\{ID\?\: int, post_author\?\: int, post_date\?\: string, post_date_gmt\?\: string, post_content\?\: string, post_content_filtered\?\: string, post_title\?\: string, post_excerpt\?\: string, \.\.\.\}, WP_Post given\.$#'
+			identifier: argument.type
+			count: 4
+			path: php/Menu_Helper.php
+
+		-
+			message: '#^Parameter \#4 \$ver of function wp_enqueue_script expects bool\|string\|null, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: php/Menu_Helper.php
+
+		-
+			message: '#^Parameter \#4 \$ver of function wp_enqueue_style expects bool\|string\|null, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: php/Menu_Helper.php
+
+		-
+			message: '#^Parameter \$admin_bar of method DLXPlugins\\WPAC\\Menu_Helper\:\:admin_bar_menu\(\) has invalid type DLXPlugins\\WPAC\\WP_Admin_Bar\.$#'
+			identifier: class.notFound
+			count: 1
+			path: php/Menu_Helper.php
+
+		-
+			message: '#^Parameter \$admin_bar of method DLXPlugins\\WPAC\\Menu_Helper\:\:admin_bar_menu_back_to_post\(\) has invalid type DLXPlugins\\WPAC\\WP_Admin_Bar\.$#'
+			identifier: class.notFound
+			count: 1
+			path: php/Menu_Helper.php
+
+		-
+			message: '#^Parameter \$admin_bar of method DLXPlugins\\WPAC\\Menu_Helper\:\:admin_bar_menu_preview_overlay\(\) has invalid type DLXPlugins\\WPAC\\WP_Admin_Bar\.$#'
+			identifier: class.notFound
+			count: 1
+			path: php/Menu_Helper.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 2
+			path: php/Menu_Helper.php
+
+		-
+			message: '#^PHPDoc tag @var has invalid value \(\[type\]\)\: Unexpected token "\[", expected type at offset 48 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: php/Options.php
+
+		-
+			message: '#^Function DLXPlugins\\WPAC\\can_redirect_on_activation\(\) should return true but returns false\.$#'
+			identifier: return.type
+			count: 5
+			path: wp-ajaxify-comments.php

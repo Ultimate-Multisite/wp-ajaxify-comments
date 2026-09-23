@@ -35,8 +35,8 @@ jobs:
       - name: Run ESLint
         run: npm run lint:js
 
-  phpcs:
-    name: PHPCS
+  php-quality:
+    name: PHPCS + PHPStan
     runs-on: ubuntu-latest
 
     steps:
@@ -54,3 +54,6 @@ jobs:
 
       - name: Run PHPCS
         run: composer phpcs
+
+      - name: Run PHPStan
+        run: composer phpstan -- --error-format=github

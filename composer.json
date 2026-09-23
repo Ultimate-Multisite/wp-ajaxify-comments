@@ -9,7 +9,10 @@
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
         "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "php-stubs/wordpress-stubs": "^6.5",
+        "phpstan/phpstan": "^2.0",
         "squizlabs/php_codesniffer": "^3.7",
+        "szepeviktor/phpstan-wordpress": "^2.0",
         "wp-coding-standards/wpcs": "^3.0"
     },
     "authors": [
@@ -35,6 +38,10 @@
     "scripts": {
         "phpcs": "phpcs",
         "phpcbf": "phpcbf",
-        "lint": "@phpcs"
+        "phpstan": "phpstan analyse --memory-limit=1G",
+        "lint": [
+            "@phpcs",
+            "@phpstan"
+        ]
     }
 }
