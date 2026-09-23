@@ -172,7 +172,7 @@ class Options {
 		 */
 		$options       = apply_filters(
 			'dlxplugins/ajaxify/comments/options/parsed',
-			$options,
+			$options
 		);
 		self::$options = $options;
 		return $options;
