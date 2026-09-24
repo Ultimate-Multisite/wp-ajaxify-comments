@@ -338,7 +338,7 @@ class Menu_Helper {
 	/**
 	 * Add the admin bar menu.
 	 *
-	 * @param WP_Admin_Bar $admin_bar Admin bar reference.
+	 * @param \WP_Admin_Bar $admin_bar Admin bar reference.
 	 */
 	public function admin_bar_menu( $admin_bar ) {
 		// Only load on singular and page types.
@@ -608,7 +608,7 @@ class Menu_Helper {
 	/**
 	 * Add a back to post option in the admin bar.
 	 *
-	 * @param WP_Admin_Bar $admin_bar Admin bar reference.
+	 * @param \WP_Admin_Bar $admin_bar Admin bar reference.
 	 */
 	public function admin_bar_menu_back_to_post( $admin_bar ) {
 		// Only load on singular and page types.
@@ -637,7 +637,7 @@ class Menu_Helper {
 	/**
 	 * Add option group for preview overlays.
 	 *
-	 * @param WP_Admin_Bar $admin_bar Admin bar reference.
+	 * @param \WP_Admin_Bar $admin_bar Admin bar reference.
 	 */
 	public function admin_bar_menu_preview_overlay( $admin_bar ) {
 		// Only load on singular and page types.

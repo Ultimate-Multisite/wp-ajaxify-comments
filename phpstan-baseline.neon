@@ -301,24 +301,6 @@ parameters:
 			path: php/Functions.php
 
 		-
-			message: '#^Call to method add_group\(\) on an unknown class DLXPlugins\\WPAC\\WP_Admin_Bar\.$#'
-			identifier: class.notFound
-			count: 1
-			path: php/Menu_Helper.php
-
-		-
-			message: '#^Call to method add_menu\(\) on an unknown class DLXPlugins\\WPAC\\WP_Admin_Bar\.$#'
-			identifier: class.notFound
-			count: 1
-			path: php/Menu_Helper.php
-
-		-
-			message: '#^Call to method add_node\(\) on an unknown class DLXPlugins\\WPAC\\WP_Admin_Bar\.$#'
-			identifier: class.notFound
-			count: 16
-			path: php/Menu_Helper.php
-
-		-
 			message: '#^Parameter \#1 \$postarr of function wp_update_post expects array\{ID\?\: int, post_author\?\: int, post_date\?\: string, post_date_gmt\?\: string, post_content\?\: string, post_content_filtered\?\: string, post_title\?\: string, post_excerpt\?\: string, \.\.\.\}, WP_Post given\.$#'
 			identifier: argument.type
 			count: 4
@@ -333,24 +315,6 @@ parameters:
 		-
 			message: '#^Parameter \#4 \$ver of function wp_enqueue_style expects bool\|string\|null, float given\.$#'
 			identifier: argument.type
-			count: 1
-			path: php/Menu_Helper.php
-
-		-
-			message: '#^Parameter \$admin_bar of method DLXPlugins\\WPAC\\Menu_Helper\:\:admin_bar_menu\(\) has invalid type DLXPlugins\\WPAC\\WP_Admin_Bar\.$#'
-			identifier: class.notFound
-			count: 1
-			path: php/Menu_Helper.php
-
-		-
-			message: '#^Parameter \$admin_bar of method DLXPlugins\\WPAC\\Menu_Helper\:\:admin_bar_menu_back_to_post\(\) has invalid type DLXPlugins\\WPAC\\WP_Admin_Bar\.$#'
-			identifier: class.notFound
-			count: 1
-			path: php/Menu_Helper.php
-
-		-
-			message: '#^Parameter \$admin_bar of method DLXPlugins\\WPAC\\Menu_Helper\:\:admin_bar_menu_preview_overlay\(\) has invalid type DLXPlugins\\WPAC\\WP_Admin_Bar\.$#'
-			identifier: class.notFound
 			count: 1
 			path: php/Menu_Helper.php
 
