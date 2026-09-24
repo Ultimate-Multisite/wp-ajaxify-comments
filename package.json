@@ -7,6 +7,9 @@
 		"start": "webpack --watch --env mode=development",
 		"dev": "webpack --mode development --env mode=development",
 		"build": "webpack --mode production --env mode=production",
+		"lint": "npm run lint:js",
+		"lint:js": "eslint src/js/frontend --ext .js --report-unused-disable-directives",
+		"lint:js:fix": "npm run lint:js -- --fix",
 		"i18n:pot": "wp i18n make-pot . languages/wp-ajaxify-comments.pot --slug=wp-ajaxify-comments --domain=wp-ajaxify-comments --headers='{\"Report-Msgid-Bugs-To\":\"https://github.com/Ultimate-Multisite/wp-ajaxify-comments/issues\"}'"
 	},
 	"repository": {
