@@ -46,7 +46,7 @@
 		"eslint-plugin-promise": "^6.1.1",
 		"eslint-plugin-react": "^7.33.2",
 		"grunt": "^1.5.3",
-		"grunt-contrib-compress": "^2.0.0",
+		"grunt-contrib-compress": "^1.6.0",
 		"hex-to-rgba": "^2.0.1",
 		"jquery": "^3.7.1",
 		"lucide-react": "^0.390.0",
