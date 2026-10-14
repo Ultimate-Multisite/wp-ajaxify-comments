@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ruleset name="Ajaxify Comments Coding Standards">
+	<description>PHP_CodeSniffer rules for the Ajaxify Comments WordPress plugin.</description>
+
+	<file>wp-ajaxify-comments.php</file>
+	<file>functions.php</file>
+	<file>php</file>
+
+	<arg name="extensions" value="php"/>
+	<arg name="basepath" value="."/>
+	<arg name="parallel" value="8"/>
+	<arg name="warning-severity" value="0"/>
+	<arg value="ps"/>
+
+	<config name="minimum_supported_wp_version" value="6.5"/>
+	<config name="text_domain" value="wp-ajaxify-comments"/>
+	<config name="testVersion" value="7.2-"/>
+
+	<rule ref="WordPress">
+		<!-- The plugin uses PSR-4 class and file names. -->
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+
+		<!-- Preserve established legacy conventions while enforcing new issues elsewhere. -->
+		<exclude name="Generic.Commenting"/>
+		<exclude name="Squiz.Commenting"/>
+		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
+		<exclude name="WordPress.PHP.YodaConditions"/>
+		<exclude name="Universal.UseStatements.NoUselessAliases"/>
+		<exclude name="Generic.WhiteSpace.DisallowSpaceIndent"/>
+		<exclude name="Generic.WhiteSpace.ScopeIndent"/>
+	</rule>
+
+	<rule ref="PHPCompatibilityWP"/>
+</ruleset>

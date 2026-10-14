@@ -48,7 +48,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 						response.json().then( ( data ) => {
 							const dataResponse = data.data;
 							if ( data.success ) {
-								const preCheckSuccessModal = Swal.fire( {
+								Swal.fire( {
 									titleText: dataResponse.title,
 									text: dataResponse.message,
 									icon: 'success',
@@ -124,9 +124,9 @@ document.addEventListener( 'DOMContentLoaded', function() {
 				iconHtml: '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path fill="currentColor" d="M256 448c141.4 0 256-93.1 256-208S397.4 32 256 32S0 125.1 0 240c0 49.6 21.3 95.1 56.9 130.8L16 480l150.4-45.1c27.9 8.5 58.1 13.1 89.6 13.1z"/></svg>',
 				didOpen: () => {
 					Swal.showLoading();
-	
+
 					const selectorList = [];
-	
+
 					// Find the comments container. todo - make filterable.
 					const commentContainerSelectors = [
 						'.wp-block-comments', /* Block themes */
@@ -137,7 +137,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 						'#comment-wrap', /* Divi */
 						'.et_pb_comments_module', /* Divi */
 					];
-	
+
 					// Loop through each of the comment selectors.
 					// Find children and make sure its a comment.
 					// Make sure selected element is a comment list.
@@ -149,33 +149,33 @@ document.addEventListener( 'DOMContentLoaded', function() {
 						const commentElement = document.querySelector( commentSelector );
 						if ( commentElement ) {
 							const commentElementTagName = commentElement.tagName.toLowerCase();
-	
+
 							// Check to see if container has children. If not, skip.
 							if ( commentElement.children.length <= 0 ) {
 								return;
 							}
-	
+
 							// If element is a heading, bail.
 							if ( headingsArr.includes( commentElementTagName ) ) {
 								return;
 							}
-	
+
 							// If the element is UL or OL, bail.
 							if ( 'ul' === commentElementTagName || 'ol' === commentElementTagName ) {
 								return;
 							}
-	
+
 							// Check to see if children contain UL or OL. If so, we've found the container.
 							const ULs = commentElement.querySelector( 'ul' );
 							const OLs = commentElement.querySelector( 'ol' );
 							if ( null === ULs && null === OLs ) {
 								return;
 							}
-	
+
 							if ( null !== ULs || null !== OLs ) {
 								foundCommentContainer = true;
 							}
-	
+
 							// If we still haven't found the comment container, check that is has #respond or a form element.
 							if ( ! foundCommentContainer ) {
 								const respondOrForm = commentElement.querySelectorAll( '#respond, form, .comment-respond' );
@@ -198,10 +198,10 @@ document.addEventListener( 'DOMContentLoaded', function() {
 							if ( ! foundCommentContainer ) {
 								return;
 							}
-	
+
 							// We've likely found the comment list. This is a valid container.
 							foundCommentContainer = true;
-	
+
 							selectorList.push( {
 								selector: commentSelector,
 								tagName: commentElementTagName,
@@ -210,7 +210,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 							} );
 						}
 					} );
-	
+
 					// Now check to see if we can find the comment list.
 					let foundCommentList = false;
 					const commentListSelectors = [
@@ -230,13 +230,13 @@ document.addEventListener( 'DOMContentLoaded', function() {
 						const commentListElement = document.querySelector( commentListSelector );
 						if ( commentListElement ) {
 							const commentListElementTagName = commentListElement.tagName.toLowerCase();
-	
+
 							// If child contains LI, or `.comment`, then we've found the comment list.
 							const commentListItems = commentListElement.querySelectorAll( 'li, .comment' );
 							if ( null !== commentListItems && commentListItems.length > 0 ) {
 								foundCommentList = true;
 							}
-	
+
 							if ( 'ul' === commentListElementTagName || 'ol' === commentListElementTagName ) {
 								foundCommentList = true;
 							}
@@ -250,7 +250,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 							}
 						}
 					} );
-	
+
 					// Now let's get the comment form.
 					let foundCommentForm = false;
 					const commentFormSelectors = [
@@ -278,7 +278,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 							}
 						}
 					} );
-	
+
 					// Get the respond textarea.
 					let foundRespondContainer = false;
 					const respondContainerSelectors = [
@@ -301,7 +301,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 							foundRespondContainer = true;
 						}
 					} );
-	
+
 					// Get the comment text textarea.
 					let foundCommentTextarea = false;
 					const commentTextareaSelectors = [
@@ -327,7 +327,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 							}
 						}
 					} );
-	
+
 					// Get the comment submit button.
 					let foundCommentSubmit = false;
 					const commentSubmitSelectors = [
@@ -357,11 +357,11 @@ document.addEventListener( 'DOMContentLoaded', function() {
 							}
 						}
 					} );
-	
+
 					// Check to see if we found all the selectors.
 					if ( selectorList.length < 6 ) {
-						WPAC._Debug("error", "We didn't find all the selectors. Selector List: ", selectorList );
-	
+						WPAC._Debug( 'error', "We didn't find all the selectors. Selector List: ", selectorList );
+
 						Swal.fire( {
 							titleText: __( 'Unable to Find All Selectors', 'wp-ajaxify-comments' ),
 							html: __( 'We were unable to find all the required selectors. Please contact support and tell them what theme you are using. Make sure Lazy Loading is disabled.', 'wp-ajaxify-comments' ),
@@ -488,7 +488,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 					}
 				},
 			} );
-		} catch( error ) {
+		} catch ( error ) {
 			Swal.fire( {
 				titleText: __( 'Unable to Find All Selectors', 'wp-ajaxify-comments' ),
 				html: __( 'We were unable to find all the required selectors. Please contact support and tell them what theme you are using. Make sure Lazy Loading is disabled.', 'wp-ajaxify-comments' ),
@@ -508,7 +508,6 @@ document.addEventListener( 'DOMContentLoaded', function() {
 				}
 			} );
 		}
-		
 	};
 
 	// Open comments.
@@ -749,4 +748,3 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		} );
 	}
 } );
-

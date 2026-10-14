@@ -525,7 +525,7 @@ function wpac_the_content( $content ) {
 add_filter( 'the_content', 'wpac_the_content', PHP_INT_MAX );
 
 function wpac_is_ajax_request() {
-	return isset( $_SERVER['HTTP_X_WPAC_REQUEST'] ) && $_SERVER['HTTP_X_WPAC_REQUEST'];
+	return isset( $_SERVER['HTTP_X_WPAC_REQUEST'] ) && (bool) sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_WPAC_REQUEST'] ) );
 }
 
 function wpac_comments_template_query_args_filter( $comments ) {
