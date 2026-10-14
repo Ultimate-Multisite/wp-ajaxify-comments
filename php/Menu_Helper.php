@@ -666,7 +666,7 @@ class Menu_Helper {
 				'id'     => 'wpac-menu-helper-preview-overlay-label',
 				'parent' => 'wpac-menu-helper',
 				'title'  => '<span style="font-weight: 900;">' . __( 'Overlay Preview', 'wp-ajaxify-comments' ) . '</span>',
-				'href'   => false,
+				'href'   => '',
 			)
 		);
 
