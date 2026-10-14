@@ -75,5 +75,10 @@
 	"dependencies": {
 		"@fancyapps/ui": "^5.0.24",
 		"@sweetalert2/themes": "^5.0.15"
+	},
+	"overrides": {
+		"@typescript-eslint/typescript-estree": {
+			"minimatch": "9.0.7"
+		}
 	}
 }
