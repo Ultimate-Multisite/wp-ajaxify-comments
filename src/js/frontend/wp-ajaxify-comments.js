@@ -383,10 +383,110 @@ WPAC._GetSavedFormFields = function( formData, postId ) {
 	if ( formData.byPostId ) {
 		return postId ? formData.byPostId[ postId ] : null;
 	}
+	if ( Array.isArray( formData.fields ) ) {
+		return formData.fields;
+	}
 	if ( Array.isArray( formData ) ) {
 		return formData;
 	}
 	return null;
+};
+
+/**
+ * Get reply metadata saved before a comments refresh.
+ *
+ * @param {Array|Object} formData Flat serializeArray data or per-post-id map.
+ * @param {number}       postId   Post ID when using a per-post-id map.
+ * @return {Object|null} Saved reply metadata, or null.
+ */
+WPAC._GetSavedReplyState = function( formData, postId ) {
+	if ( ! formData ) {
+		return null;
+	}
+	if ( formData.replyStateByPostId ) {
+		return postId ? formData.replyStateByPostId[ postId ] : null;
+	}
+	return formData.replyState || null;
+};
+
+/**
+ * Capture the active WordPress threaded-reply target for a comment form.
+ *
+ * @param {jQuery} $form                    Comment form.
+ * @param {string} selectorRespondContainer Respond container selector.
+ * @return {Object|null} Reply metadata, or null when composing a top-level comment.
+ */
+WPAC._CaptureReplyState = function( $form, selectorRespondContainer ) {
+	if ( ! $form || ! $form.length ) {
+		return null;
+	}
+
+	const parentId = parseInt( $form.find( 'input[name="comment_parent"]' ).val(), 10 );
+	const $respond = $form.closest( selectorRespondContainer );
+	if ( ! parentId || ! $respond.length ) {
+		return null;
+	}
+
+	const $target = jQuery( '#comment-' + parentId );
+	return {
+		parentId,
+		respondId: $respond.attr( 'id' ) || '',
+		targetId: $target.attr( 'id' ) || 'comment-' + parentId,
+	};
+};
+
+/**
+ * Restore a threaded reply using WordPress's native reply handling where available.
+ *
+ * @param {jQuery} $form                    Replaced comment form.
+ * @param {Object} replyState               Saved reply metadata.
+ * @param {string} selectorRespondContainer Respond container selector.
+ */
+WPAC._RestoreReplyState = function( $form, replyState, selectorRespondContainer ) {
+	if ( ! $form || ! $form.length || ! replyState || ! replyState.parentId ) {
+		return;
+	}
+
+	const $respond = $form.closest( selectorRespondContainer );
+	const $parentField = $form.find( 'input[name="comment_parent"]' );
+	if ( ! $respond.length || ! $parentField.length ) {
+		return;
+	}
+
+	const target = document.getElementById( replyState.targetId );
+	if ( target ) {
+		if (
+			window.addComment &&
+			typeof window.addComment.moveForm === 'function' &&
+			replyState.respondId
+		) {
+			window.addComment.moveForm(
+				replyState.targetId,
+				$parentField.attr( 'id' ) || 'comment_parent',
+				replyState.respondId,
+				replyState.parentId,
+			);
+		} else {
+			if ( ! jQuery( '#wp-temp-form-div' ).length ) {
+				jQuery( '<div id="wp-temp-form-div" />' ).insertBefore( $respond );
+			}
+			jQuery( target ).after( $respond );
+			$respond.find( '#cancel-comment-reply-link' ).show();
+		}
+		$parentField.val( replyState.parentId );
+		return;
+	}
+
+	if ( window.addComment && typeof window.addComment.cancelForm === 'function' ) {
+		window.addComment.cancelForm();
+	} else {
+		const $placeholder = jQuery( '#wp-temp-form-div' );
+		if ( $placeholder.length ) {
+			$placeholder.replaceWith( $respond );
+		}
+		$respond.find( '#cancel-comment-reply-link' ).hide();
+	}
+	$parentField.val( 0 );
 };
 
 /**
@@ -402,7 +502,11 @@ WPAC._RestoreFormData = function( $form, fields ) {
 
 	jQuery.each( fields, function( key, value ) {
 		const formElement = $form.find( "[name='" + value.name + "']" );
-		if ( formElement.length !== 1 || formElement.val() ) {
+		const restoreReplyTarget =
+			'comment_parent' === value.name &&
+			parseInt( value.value, 10 ) &&
+			0 === parseInt( formElement.val(), 10 );
+		if ( formElement.length !== 1 || ( formElement.val() && ! restoreReplyTarget ) ) {
 			return;
 		}
 		formElement.val( value.value );
@@ -564,6 +668,11 @@ WPAC._ReplaceMultipleComments = function(
 			WPAC._RestoreFormData(
 				$restoredForm,
 				WPAC._GetSavedFormFields( formData, postId ),
+			);
+			WPAC._RestoreReplyState(
+				$restoredForm,
+				WPAC._GetSavedReplyState( formData, postId ),
+				selectorRespondContainer,
 			);
 		} );
 
@@ -802,6 +911,11 @@ WPAC._ReplaceComments = function(
 		WPAC._RestoreFormData(
 			jQuery( selectorCommentForm ),
 			WPAC._GetSavedFormFields( formData ),
+		);
+		WPAC._RestoreReplyState(
+			jQuery( selectorCommentForm ),
+			WPAC._GetSavedReplyState( formData ),
+			selectorRespondContainer,
 		);
 		if ( formFocus ) {
 			// Reset focus.
@@ -1494,7 +1608,7 @@ WPAC.LoadComments = function( url, options ) {
 	let formFocus = '';
 	const activeElement = document.documentElement.ownerDocument.activeElement;
 	if ( WPAC._Options.hasMultipleCommentContainers ) {
-		formData = { byPostId: {}, focusPostId: 0 };
+		formData = { byPostId: {}, replyStateByPostId: {}, focusPostId: 0 };
 		const liveRoot = jQuery( document );
 		const scopedPostId = WPAC._GetScopedPostId( options.selectorCommentsContainer );
 		const postIds = scopedPostId ? [ scopedPostId ] : WPAC._CollectPostIds( liveRoot );
@@ -1503,6 +1617,10 @@ WPAC.LoadComments = function( url, options ) {
 			const $form = WPAC._FindCommentFormByPostId( liveRoot, postId );
 			if ( $form.length ) {
 				formData.byPostId[ postId ] = $form.serializeArray();
+				formData.replyStateByPostId[ postId ] = WPAC._CaptureReplyState(
+					$form,
+					options.selectorRespondContainer,
+				);
 			}
 		} );
 
@@ -1515,7 +1633,14 @@ WPAC.LoadComments = function( url, options ) {
 			}
 		}
 	} else {
-		formData = jQuery( options.selectorCommentForm ).serializeArray();
+		const $form = jQuery( options.selectorCommentForm );
+		formData = {
+			fields: $form.serializeArray(),
+			replyState: WPAC._CaptureReplyState(
+				$form,
+				options.selectorRespondContainer,
+			),
+		};
 		formFocus = activeElement
 			? jQuery(
 				"[name='" + activeElement.name + "']",
