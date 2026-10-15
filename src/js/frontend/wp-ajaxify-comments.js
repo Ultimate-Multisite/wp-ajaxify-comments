@@ -1260,7 +1260,6 @@ WPAC.AttachForm = function( options ) {
 					WPAC._Debug(
 						'info',
 						'Found error state X-WPAC-ERROR header.',
-						commentUrl,
 					);
 					handleErrorResponse( data );
 					return;
