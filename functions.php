@@ -178,6 +178,12 @@ function wpac_enqueue_scripts() {
 	 */
 	if ( class_exists( 'WPSunshine_Confetti' ) ) {
 		$wp_sunshine = \WPSunshine_Confetti::instance();
+
+		// Confetti 2.0+ loads one script per style, on demand. Request the default instance's style so wps_launch_confetti_cannon() can run.
+		if ( method_exists( $wp_sunshine, 'require_style' ) && method_exists( $wp_sunshine, 'get_instance_style' ) ) {
+			$wp_sunshine->require_style( $wp_sunshine->get_instance_style( 'default' ) );
+		}
+
 		$wp_sunshine->enqueue_scripts( false );
 	}
 
