@@ -126,6 +126,12 @@ Lazy Loading is an advanced topic, but we've put together <a href="https://docs.
 
 == Changelog ==
 
+= 3.2.3-rc.1 =
+* Pre-release for testing.
+* Bug fix: Fixing AJAX validation-error response handling.
+* Bug fix: Preserving threaded reply state across comment refresh.
+* Updating dependencies and remediating patchable security alerts.
+
 = 3.2.2 =
 * Released 2026-04-05
 * Fixing bug a bug where selectors could render as data, attaching a click event to document links, rendering them unclickable. Props to <a href="https://mentionlink.com/">paul@mentionlink</a> for finding this bug.
